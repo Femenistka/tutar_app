@@ -48,10 +48,6 @@ def add_lesson(name: str, price: float, date: str, comment: str | None = None):
 
 
 def add_payment(name: str, price: float, date: str, pay_method: str, comment: str | None = None):
-    import types
-    # Диагностика: покажет в UI, что именно за _conn
-    # (потом удалишь)
-    st.write("DEBUG _conn type:", type(_conn), "callable:", callable(_conn))
     conn = _conn()
     with conn.session as s:
         s.execute(
