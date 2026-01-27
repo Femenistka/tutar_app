@@ -6,7 +6,7 @@ import plotly.express as px
 
 
 DB_PATH = "app.db"
-
+TAX = 0.10
 
 @st.cache_data(ttl=60)
 def load_data():
@@ -40,10 +40,12 @@ def render():
     # --- Общая статистика ---
     total_income = float(payments["price"].sum()) if not payments.empty else 0.0
     total_lessons = int(lessons["name"].count()) if not lessons.empty else 0
+    total_tax = float(payments.loc[payments["pay_method"] == "card", "price"].sum() * TAX)  if not payments.empty else 0.0
 
-    c1, c2 = st.columns(2)
+    c1, c2, c3= st.columns(3)
     c1.metric("Количество занятий", total_lessons)
     c2.metric("Доход за всё время", f"{total_income:.2f}")
+    c3.metric("Сумарный налог за все время", f"{total_tax:.2f}")
 
     st.divider()
 
